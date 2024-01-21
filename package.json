@@ -21,11 +21,16 @@
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/mapped-types": "^2.0.4",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.8.1",
+    "m": "^1.8.9",
     "prisma": "^5.8.1",
     "reflect-metadata": "^0.1.13",
+    "res": "^0.4.0",
+    "resource": "^0.8.1",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
