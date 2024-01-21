@@ -19,7 +19,7 @@ model Author {
   book_id Book[]
 
   created_at DateTime @default(now())
-  updated_at  DateTime
+  updated_at  DateTime  @updatedAt
 
   @@map("author")
 }
@@ -32,7 +32,7 @@ model Genre {
   book_id Book[]
 
   created_at DateTime @default(now())
-  updated_at  DateTime
+  updated_at  DateTime  @updatedAt
 
   @@map("genre")
 }
@@ -40,14 +40,14 @@ model Genre {
 model Book {
   id  Int @id @default(autoincrement())
   title String
-  author Author @relation(fields: [author_id], references: [id])
+  author Author @relation(fields: [author_id], references: [id], onDelete: Cascade)
   author_id Int
-  genre Genre @relation(fields: [genre_id], references: [id])
+  genre Genre @relation(fields: [genre_id], references: [id], onDelete: Cascade)
   genre_id  Int
   date DateTime
 
   created_at DateTime @default(now())
-  updated_at  DateTime
+  updated_at  DateTime  @updatedAt
 
   @@map("book")
 }
