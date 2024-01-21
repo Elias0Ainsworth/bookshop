@@ -6,40 +6,55 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { Author } from './entities/author.entity';
 
 @Controller('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
   @Post()
-  async create(@Body() createAuthorDto: CreateAuthorDto) {
-    return await this.authorService.create(createAuthorDto);
+  async createAuthor(
+    @Body() createAuthorDto: CreateAuthorDto,
+  ): Promise<Author> {
+    return await this.authorService.create({
+      ...createAuthorDto,
+      birthday: new Date(createAuthorDto.birthday),
+    });
   }
 
   @Get()
-  async getAll() {
-    return await this.authorService.findAll();
+  async getAllAuthor(
+    @Query('first_name') first_name?: string,
+    @Query('last_name') last_name?: string,
+    @Query('birthday') birthday?: string,
+  ): Promise<Author[]> {
+    return await this.authorService.findAll({
+      first_name,
+      last_name,
+      birthday,
+    });
   }
 
   @Get(':id')
-  async getOne(@Param('id') id: string) {
-    return await this.authorService.findOne(+id);
+  async getOneAuthor(@Param('id') id: string): Promise<Author> {
+    return await this.authorService.findOne({ id: +id });
   }
 
   @Patch(':id')
-  async update(
+  async updateAuthor(
     @Param('id') id: string,
     @Body() updateAuthorDto: UpdateAuthorDto,
-  ) {
+  ): Promise<Author> {
     return await this.authorService.update(+id, updateAuthorDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.authorService.remove(+id);
+  async deleteAuthor(@Param('id') id: string): Promise<Author> {
+    return await this.authorService.remove({ id: +id });
   }
 }
