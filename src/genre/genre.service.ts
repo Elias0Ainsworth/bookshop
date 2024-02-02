@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UpdateGenreDto } from './dto/update-genre.dto';
 import { PrismaService } from 'src/database/prisma.service';
 import { Genre, Prisma } from '@prisma/client';
 
