@@ -52,3 +52,15 @@ model Book {
   @@map("book")
 }
 
+model User {
+  id Int @id @default(autoincrement())
+  first_name String
+  last_name String
+  birthday  DateTime
+
+  created_at DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@map("user")
+}
+
