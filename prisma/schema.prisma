@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Author {
+  id  Int  @id  @default(autoincrement())
+  first_name String
+  last_name String
+  birthday  DateTime
+
+  book_id Book[]
+
+  created_at DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@map("author")
+}
+
+model Genre {
+  id  Int @id @default(autoincrement())
+  title String
+  description String
+
+  book_id Book[]
+
+  created_at DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@map("genre")
+}
+
+model Book {
+  id  Int @id @default(autoincrement())
+  title String
+  author Author @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  author_id Int
+  genre Genre @relation(fields: [genre_id], references: [id], onDelete: Cascade)
+  genre_id  Int
+  date DateTime
+
+  shoppingBasket ShoppingBasket[]
+
+  created_at DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@map("book")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  first_name String
+  last_name String
+  birthday  DateTime
+
+  shoppingBasket ShoppingBasket[]
+
+  created_at DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@map("user")
+}
+
+model ShoppingBasket {
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  book Book @relation(fields: [book_id], references: [id])
+  book_id Int
+
+  created_at DateTime @default(now())
+
+  @@id([user_id, book_id])
+  @@map("shopping_basket")
+}
+
