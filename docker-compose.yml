@@ -9,6 +9,7 @@ services:
       - '3000:3000'
     depends_on:
       - postgres
+      - redis
     env_file:
       - .env
 
@@ -22,7 +23,17 @@ services:
       - .env
     volumes:
       - postgres:/var/lib/postgressql/data
+  
+  redis:
+    container_name: cache
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
 
 volumes:
   postgres:
     name: bookshop
+  redis:
+    driver: local

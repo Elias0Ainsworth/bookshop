@@ -12,6 +12,7 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
+import { Public } from 'src/auth/decorators/public-.decorator';
 
 @Controller('book')
 export class BookController {
@@ -27,6 +28,7 @@ export class BookController {
     });
   }
 
+  @Public()
   @Get()
   async getAllBooks(
     @Query('title') title?: string,
