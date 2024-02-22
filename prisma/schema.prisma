@@ -56,11 +56,14 @@ model Book {
 
 model User {
   id Int @id @default(autoincrement())
+  email String @unique
+  password String
   first_name String
   last_name String
   birthday  DateTime
 
   shoppingBasket ShoppingBasket[]
+  role UserRole[]
 
   created_at DateTime @default(now())
   updated_at  DateTime  @updatedAt
@@ -80,3 +83,23 @@ model ShoppingBasket {
   @@map("shopping_basket")
 }
 
+model Role {
+  id Int @id @default(autoincrement())
+  name String
+
+  userId UserRole[]
+
+  created_at DateTime @default(now())
+
+  @@map("role")
+}
+
+model UserRole {
+  id Int @id @default(autoincrement())
+  userId User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id Int 
+  roleId Role @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  role_id Int
+
+  @@map("user_role")
+}
