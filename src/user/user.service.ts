@@ -7,14 +7,6 @@ import { User } from './entities/user.entity';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: Prisma.UserCreateInput): Promise<User> {
-    const createUser = await this.prisma.user.create({ data });
-    if (!createUser) {
-      throw new HttpException('Not created', HttpStatus.BAD_REQUEST);
-    }
-    return createUser;
-  }
-
   async findAll(where: Prisma.UserWhereInput): Promise<User[]> {
     return await this.prisma.user.findMany({ where });
   }

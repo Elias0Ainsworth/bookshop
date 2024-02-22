@@ -10,6 +10,7 @@ import {
 import { ShoppingBasketService } from './shopping_basket.service';
 import { CreateShoppingBasketDto } from './dto/create-shopping_basket.dto';
 import { ShoppingBasket } from './entities/shopping_basket.entity';
+import { GetCurrentUserId } from 'src/auth/decorators/get-current-user.decorator';
 
 @Controller('shopping-basket')
 export class ShoppingBasketController {
@@ -36,7 +37,10 @@ export class ShoppingBasketController {
   }
 
   @Delete(':id')
-  async removeBasket(@Param('id') book: string): Promise<ShoppingBasket> {
+  async removeBasket(
+    @Param('id') book: string,
+    @GetCurrentUserId() user_id: number,
+  ): Promise<ShoppingBasket> {
     const book_id = book ? +book : undefined;
     return await this.shoppingBasketService.remove({
       user_id_book_id: { book_id, user_id },
