@@ -9,22 +9,16 @@ import {
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Roles } from 'src/auth/role.decorator';
+import { Role } from 'src/auth/role.enum';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.userService.create({
-      ...createUserDto,
-      birthday: new Date(createUserDto.birthday),
-    });
-  }
-
+  @Roles(Role.Admin)
   @Get()
   async getAllUsers(
     @Query('first_name') first_name?: string,
