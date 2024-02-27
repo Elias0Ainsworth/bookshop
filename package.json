@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:db": "docker-compose -f docker-compose.db.yml up -d"
   },
   "dependencies": {
     "@nestjs/cache-manager": "^2.2.1",
@@ -28,6 +29,7 @@
     "@nestjs/mapped-types": "^2.0.4",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.3.0",
     "@prisma/client": "^5.8.1",
     "@types/bcrypt": "^5.0.2",
     "@types/passport-jwt": "^4.0.1",
@@ -48,7 +50,7 @@
   },
   "prisma": {
     "seed": "ts-node ./src/database/seed.ts"
-},
+  },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@nestjs/cli": "^10.0.0",

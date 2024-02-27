@@ -11,11 +11,17 @@ import { ShoppingBasketService } from './shopping_basket.service';
 import { CreateShoppingBasketDto } from './dto/create-shopping_basket.dto';
 import { ShoppingBasket } from './entities/shopping_basket.entity';
 import { GetCurrentUserId } from 'src/auth/decorators/get-current-user.decorator';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Shopping basket')
 @Controller('shopping-basket')
 export class ShoppingBasketController {
   constructor(private readonly shoppingBasketService: ShoppingBasketService) {}
 
+  @ApiOperation({
+    summary: 'create shopping basket',
+    description: 'to add book into user basket',
+  })
   @Post()
   async createBasket(
     @Body() createShoppingBasketDto: CreateShoppingBasketDto,
@@ -26,6 +32,10 @@ export class ShoppingBasketController {
     });
   }
 
+  @ApiOperation({
+    summary: 'get all user book from basket',
+    description: 'to get all book from user basket',
+  })
   @Get()
   async getAllBasket(
     @Query('user_id') user: string,
@@ -36,6 +46,10 @@ export class ShoppingBasketController {
     return await this.shoppingBasketService.findAll({ user_id, book_id });
   }
 
+  @ApiOperation({
+    summary: 'delete shopping basket',
+    description: 'delete book from user basket',
+  })
   @Delete(':id')
   async removeBasket(
     @Param('id') book: string,
