@@ -4,11 +4,17 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import SignInDto from './dto/sign-in.dto';
 import AccessTokenResponse from './dto/access-token.response';
 import { Public } from './decorators/public.decorator';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({
+    summary: 'registration user',
+    description: 'for registration user',
+  })
   @Public()
   @Post('signup')
   async signUp(
@@ -20,6 +26,10 @@ export class AuthController {
     });
   }
 
+  @ApiOperation({
+    summary: 'logging user',
+    description: 'for logging user',
+  })
   @Public()
   @Post('signin')
   async signIn(@Body() data: SignInDto): Promise<AccessTokenResponse> {

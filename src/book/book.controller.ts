@@ -12,11 +12,17 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Book')
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
+  @ApiOperation({
+    summary: 'create book',
+    description: 'to create book',
+  })
   @Post()
   async createBook(@Body() createBookDto: CreateBookDto): Promise<Book> {
     return await this.bookService.create({
@@ -27,6 +33,10 @@ export class BookController {
     });
   }
 
+  @ApiOperation({
+    summary: 'get all book',
+    description: 'to get all book by parameters',
+  })
   @Get()
   async getAllBooks(
     @Query('title') title?: string,
@@ -43,11 +53,19 @@ export class BookController {
     });
   }
 
+  @ApiOperation({
+    summary: 'get unique book',
+    description: 'to get unique book',
+  })
   @Get(':id')
   async getOneBook(@Param('id') id: string): Promise<Book> {
     return await this.bookService.findOne({ id: +id });
   }
 
+  @ApiOperation({
+    summary: 'update book',
+    description: 'update book',
+  })
   @Patch(':id')
   async updateBook(
     @Param('id') id: string,
@@ -56,6 +74,10 @@ export class BookController {
     return await this.bookService.update({ id: +id }, updateBookDto);
   }
 
+  @ApiOperation({
+    summary: 'delete book',
+    description: 'to delete book',
+  })
   @Delete(':id')
   async removeBook(@Param('id') id: string): Promise<Book> {
     return await this.bookService.remove({ id: +id });
