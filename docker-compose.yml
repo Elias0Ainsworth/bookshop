@@ -27,6 +27,7 @@ services:
   
   redis:
     image: redis:6.0
+    restart: always
     ports:
       - 6379:6379
     volumes:
@@ -34,6 +35,7 @@ services:
 
   redis-commander:
     container_name: redis-commander
+    restart: always
     hostname: redis-commander
     image: ghcr.io/joeferner/redis-commander:latest
     environment:
