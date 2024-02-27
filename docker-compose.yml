@@ -9,6 +9,8 @@ services:
       - '3000:3000'
     depends_on:
       - postgres
+      - redis
+      - redis-commander
     env_file:
       - .env
 
@@ -22,7 +24,27 @@ services:
       - .env
     volumes:
       - postgres:/var/lib/postgressql/data
+  
+  redis:
+    image: redis:6.0
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      driver: local
+
+  redis-commander:
+    container_name: redis-commander
+    restart: always
+    hostname: redis-commander
+    image: ghcr.io/joeferner/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
 
 volumes:
   postgres:
     name: bookshop
+  redis:
+    driver: local
