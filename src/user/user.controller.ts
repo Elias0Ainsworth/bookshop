@@ -1,25 +1,24 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
   Delete,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { Roles } from 'src/auth/role.decorator';
-import { Role } from 'src/auth/role.enum';
+import { CacheInterceptor, CacheKey } from '@nestjs/cache-manager';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Roles(Role.Admin)
   @Get()
+  @UseInterceptors(CacheInterceptor)
   async getAllUsers(
     @Query('first_name') first_name?: string,
     @Query('last_name') last_name?: string,
