@@ -6,11 +6,12 @@ import { BookModule } from './book/book.module';
 import { UserModule } from './user/user.module';
 import { ShoppingBasketModule } from './shopping_basket/shopping_basket.module';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/auth.guard';
 import { RolesGuard } from './auth/roles.guard';
 import * as redisStore from 'cache-manager-redis-store';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { AllExeptionFilter } from './filter/all-exeption.filter';
 
 @Module({
   imports: [
@@ -42,6 +43,10 @@ import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExeptionFilter,
     },
   ],
 })

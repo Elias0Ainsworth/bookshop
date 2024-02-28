@@ -1,12 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import * as fs from 'fs';
+import * as morgan from 'morgan';
+
+const logStream = fs.createWriteStream('api.log', {
+  flags: 'a',
+});
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['log', 'fatal', 'error', 'warn'],
+  });
   app.setGlobalPrefix('api');
-  app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
     .setTitle('Book shop')
@@ -15,6 +22,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);
+
+  app.use(morgan('combined', { stream: logStream }));
 
   await app.listen(process.env.PORT || 3000, '0.0.0.0');
   console.log(`Application is running on: ${await app.getUrl()}`);
