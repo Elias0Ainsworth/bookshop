@@ -9,11 +9,11 @@ import { Cache } from 'cache-manager';
 export class UserService {
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    // @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async findAll(where: Prisma.UserWhereInput): Promise<User[]> {
-    await this.cacheManager.set('hehe', 'hehe');
+    // await this.cacheManager.set('hehe', 'hehe');
     // const log = await this.cacheManager.get('1231');
     // console.log(log);
     return await this.prisma.user.findMany({ where });
